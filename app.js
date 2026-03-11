@@ -42,40 +42,24 @@ function renderHome() {
         const li = document.createElement("li")
         li.className = "player"
         li.innerHTML = `
-
-<span onclick="goToPlayer('${p.username}')">${p.username}</span>
-
-<button onclick="removePlayer('A','${p.username}')">
-Remove
-</button>
-
-`
-        listA.appendChild(li)
+        <span onclick="goToPlayer('${p.username}')">${p.username}</span>
+        <button onclick="removePlayer('A','${p.username}')">
+        Remove
+        </button>
+        `
+    listA.appendChild(li)
     })
     teamB.forEach(p => {
         const li = document.createElement("li")
         li.className = "player"
         li.innerHTML = `
-<span onclick="goToPlayer('${p.username}')">${p.username}</span>
-<button onclick="removePlayer('B','${p.username}')">
-Remove
-</button>
-
-`
-function removePlayer(team, username) {
-    if (team === "A") {
-        teamA.p.username.remove()
-    }
-    if (team === "B") {
-       // teamB.
-    }
-    save()
-    renderHome()
-
-}
-        listB.appendChild(li)
+        <span onclick="goToPlayer('${p.username}')">${p.username}</span>
+        <button onclick="removePlayer('B','${p.username}')">
+        Remove
+        </button>
+        `
+    listB.appendChild(li)
     })
-
 }
 
 
@@ -84,6 +68,20 @@ function goToPlayer(username) {
     window.location.href = "playerinfo.html"
 }
 
+function removePlayer(team, username) {
+    if (team === "A") {
+        if(teamA.includes(username)){
+            username.remove()
+            console.log(username)
+        }
+    }
+    if (team === "B") {
+       // teamB.
+    }
+    save()
+    renderHome()
+
+}
 
 function usernameExists(username) {
     return teamA.includes(username) || teamB.includes(username)
