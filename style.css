@@ -1,0 +1,40 @@
+body {
+    font-family: Arial;
+    background: #f4f4f4;
+    padding: 30px;
+}
+
+nav a {
+    margin-right: 15px;
+}
+
+.teams {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.team {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+}
+
+.player {
+    display: flex;
+    justify-content: space-between;
+    margin: 6px 0;
+}
+
+.player span {
+    cursor: pointer;
+    color: blue;
+}
+
+.profile {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 300px;
+}

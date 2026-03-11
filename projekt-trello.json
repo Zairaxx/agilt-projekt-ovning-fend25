@@ -1,0 +1,83 @@
+{
+  "name": "E-sport Turnering – Development Board",
+  "lists": [
+    {
+      "name": "Product backlog",
+      "cards": [
+        {
+          "name": "User Story: Söka efter spelare",
+          "desc": "Som användare vill jag kunna söka efter spelare via användarnamn så att jag snabbt kan hitta en specifik spelare."
+        },
+        {
+          "name": "User Story: Redigera spelarinformation",
+          "desc": "Som användare vill jag kunna redigera en spelares information så att jag kan korrigera eller uppdatera uppgifter."
+        },
+        {
+          "name": "User Story: Flytta spelare mellan lag",
+          "desc": "Som användare vill jag kunna flytta en spelare mellan lag så att laguppställningen kan justeras inför turneringen."
+        },
+        {
+          "name": "User Story: Sortera spelare",
+          "desc": "Som användare vill jag kunna sortera spelare efter ranking, ålder eller användarnamn så att jag enklare kan analysera lagen."
+        },
+        {
+          "name": "User Story: Visa lagstatistik",
+          "desc": "Som användare vill jag kunna se statistik för varje lag, till exempel antal spelare, genomsnittlig ålder och genomsnittlig rank så att jag kan få en överblick över lagens styrka."
+        },
+        {
+          "name": "User Story: Välja europeiskt land från dropdown",
+          "desc": "Som användare vill jag kunna välja ett land i Europa från en dropdown-lista som hämtas från ett API så att jag slipper skriva in landet manuellt och undviker stavfel."
+        },
+        {
+          "name": "Task: Skapa och implementera design för samtliga sidor",
+          "desc": "Skapa en egen design för startsidan och samtliga undersidor"
+        }
+      ]
+    },
+    {
+      "name": "Sprint backlog",
+      "cards": []
+    },
+    {
+      "name": "Todo",
+      "cards": []
+    },
+    {
+      "name": "In Progress",
+      "cards": []
+    },
+    {
+      "name": "Buggar",
+      "cards": [
+        {
+          "name": "Spelare kan läggas till med samma användarnamn",
+          "desc": "Applikationen tillåter att samma användarnamn används flera gånger, vilket bryter kravet på unika användarnamn."
+        },
+        {
+          "name": "Lag kan överskrida max 5 spelare",
+          "desc": "Det går ibland att lägga till fler än fem spelare i ett lag trots begränsningen."
+        },
+        {
+          "name": "Spelare tas inte bort korrekt",
+          "desc": "När en spelare tas bort uppdateras inte alltid den interna datastrukturen korrekt."
+        },
+        {
+          "name": "Profilinformation visas fel",
+          "desc": "När man klickar på en spelare och öppnar playerinfo visas ibland fel eller tom information."
+        },
+        {
+          "name": "Ålder och ranking sparas inte",
+          "desc": "När en spelare läggs till sparas inte alltid ålder och ranking korrekt."
+        },
+        {
+          "name": "Tillbaka-knappen fungerar inte korrekt",
+          "desc": "Knappen för att gå tillbaka till startsidan från playerinfo fungerar inte alltid som förväntat."
+        }
+      ]
+    },
+    {
+      "name": "Done",
+      "cards": []
+    }
+  ]
+}
