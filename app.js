@@ -149,7 +149,7 @@ function renderPlayerInfo() {
 <p><b>Country:</b> ${player?.country}</p>
 <p><b>Ranking:</b> ${player?.ranking}</p>
 <br>
-<button onclick="window.location='home.html'">
+<button onclick="window.location='index.html'">
 Back
 </button>
 
