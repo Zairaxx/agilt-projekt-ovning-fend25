@@ -62,6 +62,17 @@ Remove
 </button>
 
 `
+function removePlayer(team, username) {
+    if (team === "A") {
+        teamA.p.username.remove()
+    }
+    if (team === "B") {
+       // teamB.
+    }
+    save()
+    renderHome()
+
+}
         listB.appendChild(li)
     })
 
@@ -73,17 +84,6 @@ function goToPlayer(username) {
     window.location.href = "playerinfo.html"
 }
 
-function removePlayer(team, username) {
-    if (team === "A") {
-        teamA.filter(p => p.username !== username)
-    }
-    if (team === "B") {
-        teamB.filter(p => p.username !== username)
-    }
-    save()
-    renderHome()
-
-}
 
 function usernameExists(username) {
     return teamA.includes(username) || teamB.includes(username)
