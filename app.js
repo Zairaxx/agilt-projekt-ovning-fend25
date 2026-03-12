@@ -203,3 +203,29 @@ function editPlayer(username) {
     `;
 }
 
+
+function updatePlayer(originalUsername) {
+
+    const newUsername = document.getElementById("editUsername").value;
+
+    let team = teamA.some(p => p.username === originalUsername) ? "A" : "B";
+    let list = team === "A" ? teamA : teamB;
+    let other = team === "A" ? teamB : teamA;
+
+    let player = list.find(p => p.username === originalUsername);
+
+    if (other.some(p => p.username === newUsername)) {
+        alert("Username already exists in the other team");
+        return;
+    }
+
+    player.username = newUsername;
+    player.firstname = document.getElementById("editFirstname").value;
+    player.lastname = document.getElementById("editLastname").value;
+    player.age = document.getElementById("editAge").value;
+    player.country = document.getElementById("editCountry").value;
+    player.ranking = document.getElementById("editRanking").value;
+
+    save();
+    renderPlayerInfo();
+}
