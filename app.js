@@ -75,10 +75,10 @@ function goToPlayer(username) {
 
 function removePlayer(team, username) {
     if (team === "A") {
-        teamA.filter(p => p.username !== username)
+        teamA = teamA.filter(p => p.username !== username)
     }
     if (team === "B") {
-        teamB.filter(p => p.username !== username)
+        teamB = teamB.filter(p => p.username !== username)
     }
     save()
     renderHome()
@@ -86,7 +86,7 @@ function removePlayer(team, username) {
 }
 
 function usernameExists(username) {
-    return teamA.includes(username) || teamB.includes(username)
+    return teamA.some(p => p.username === username) || teamB.some(p => p.username === username);
 }
 
 
@@ -95,40 +95,42 @@ function renderAddPlayer() {
     const teamSelect = document.getElementById("teamSelect")
 
     teamSelect.innerHTML = `
+    <option value="A" ${teamA.length >= 5 ? "disabled" : ""}>
+    ${teamAName}
+    </option>
 
-<option value="A" ${teamA.length >= 5 ? "disabled" : ""}>
-${teamAName}
-</option>
-
-<option value="B" ${teamB.length >= 5 ? "disabled" : ""}>
-${teamBName}
-</option>
-
-`
+    <option value="B" ${teamB.length >= 5 ? "disabled" : ""}>
+    ${teamBName}
+    </option>
+    `
 
     document.getElementById("playerForm").addEventListener("submit", e => {
 
         e.preventDefault()
         const username = document.getElementById("username").value
-        if (usernameExists) {
-            document.getElementById("error").textContent = "Username already exists"
+
+        if (usernameExists(username)) {
+            document.getElementById("error").textContent = "Username already exists";
+            return;
         }
         const player = {
             username,
             firstname: document.getElementById("firstname").value,
             lastname: document.getElementById("lastname").value,
-            age: document.getElementById("age"),
+            age: document.getElementById("age").value,
             country: document.getElementById("country").value,
-            ranking: document.getElementById("ranking")
+            ranking: document.getElementById("ranking").value
 
         }
         const team = document.getElementById("teamSelect").value
+
         if (team === "A") {
             teamA.push(player)
         }
         if (team === "B") {
             teamB.push(player)
         }
+
         save()
         window.location.href = "index.html"
 
@@ -140,7 +142,7 @@ function renderPlayerInfo() {
 
     const username = localStorage.getItem("selectedPlayer")
 
-    const player = teamA.find(p => p.username === username)
+    const player = teamA.find(p => p.username === username) || teamB.find(p => p.username === username)
 
     const profile = document.getElementById("profile")
 
@@ -152,7 +154,7 @@ function renderPlayerInfo() {
 <p><b>Country:</b> ${player?.country}</p>
 <p><b>Ranking:</b> ${player?.ranking}</p>
 <br>
-<button onclick="window.location='home.html'">
+<button onclick="window.location='index.html'">
 Back
 </button>
 
