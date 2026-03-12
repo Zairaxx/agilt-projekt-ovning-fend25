@@ -141,8 +141,9 @@ function renderPlayerInfo() {
     const username = localStorage.getItem("selectedPlayer")
 
     const player = teamA.find(p => p.username === username)
+            ||     teamB.find(p => p.username === username);
 
-    const profile = document.getElementById("profile")
+    const profile = document.getElementById("profile");
 
     profile.innerHTML = `
 <div class="profile">
@@ -152,9 +153,8 @@ function renderPlayerInfo() {
 <p><b>Country:</b> ${player?.country}</p>
 <p><b>Ranking:</b> ${player?.ranking}</p>
 <br>
-<button onclick="window.location='home.html'">
-Back
-</button>
+<button onclick="editPlayer('${player.username}')">Edit</button>
+<button onclick="window.location='home.html'">Back</button>
 
 </div>
 
