@@ -161,3 +161,45 @@ function renderPlayerInfo() {
 `
 
 }
+
+function editPlayer(username) {
+    let player = teamA.find(p => p.username === username) ||
+                 teamB.find(p => p.username === username);
+
+    const profile = document.getElementById("profile");
+
+    profile.innerHTML = `
+        <div class="profile">
+            <h2>Edit Player</h2>
+
+            <p><b>Username:</b></p>
+            <input id="editUsername" value="${player.username}">
+
+            <p><b>First name:</b></p>
+            <input id="editFirstname" value="${player.firstname}">
+
+            <p><b>Last name:</b></p>
+            <input id="editLastname" value="${player.lastname}">
+
+            <p><b>Age:</b></p>
+            <input id="editAge" type="number" value="${player.age}">
+
+            <p><b>Country:</b></p>
+            <input id="editCountry" value="${player.country}">
+
+            <p><b>Ranking:</b></p>
+            <select id="editRanking">
+                <option ${player.ranking === "Iron" ? "selected" : ""}>Iron</option>
+                <option ${player.ranking === "Bronze" ? "selected" : ""}>Bronze</option>
+                <option ${player.ranking === "Silver" ? "selected" : ""}>Silver</option>
+                <option ${player.ranking === "Gold" ? "selected" : ""}>Gold</option>
+                <option ${player.ranking === "Diamond" ? "selected" : ""}>Diamond</option>
+            </select>
+
+            <br><br>
+            <button onclick="updatePlayer('${username}')">Update</button>
+            <button onclick="renderPlayerInfo()">Cancel</button>
+        </div>
+    `;
+}
+
