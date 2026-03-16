@@ -6,18 +6,15 @@ let teamBName = localStorage.getItem("teamBName") || "Team B"
 
 
 function save() {
-
     localStorage.setItem("teamA", JSON.stringify(teamA))
     localStorage.setItem("teamB", JSON.stringify(teamB))
 
     localStorage.setItem("teamAName", teamAName)
     localStorage.setItem("teamBName", teamBName)
-
 }
 
 
 function renameTeam(team) {
-
     if (team === "A") {
         const val = document.getElementById("teamAInput").value
         if (val) teamAName = val
@@ -30,6 +27,22 @@ function renameTeam(team) {
     renderHome()
 }
 
+function renderPlayer(p, team) {
+    const li = document.createElement("li")
+    li.className = "player"
+
+    li.innerHTML = `
+    <span onclick="goToPlayer('${p.username}')">${p.username}</span>
+    <button onclick="removePlayer('${team}','${p.username}')">
+        Remove
+    </button>
+    <button onclick="switchTeam('${team}','${p.username}')">
+        Switch
+    </button>
+    `
+
+    return li
+}
 
 function renderHome() {
     document.getElementById("teamAName").textContent = teamAName
@@ -38,33 +51,14 @@ function renderHome() {
     const listB = document.getElementById("teamBList")
     listA.innerHTML = ""
     listB.innerHTML = ""
+    
     teamA.forEach(p => {
-        const li = document.createElement("li")
-        li.className = "player"
-        li.innerHTML = `
-
-<span onclick="goToPlayer('${p.username}')">${p.username}</span>
-
-<button onclick="removePlayer('A','${p.username}')">
-Remove
-</button>
-
-`
-        listA.appendChild(li)
+        listA.appendChild(renderPlayer(p, "A"))
     })
+    
     teamB.forEach(p => {
-        const li = document.createElement("li")
-        li.className = "player"
-        li.innerHTML = `
-<span onclick="goToPlayer('${p.username}')">${p.username}</span>
-<button onclick="removePlayer('B','${p.username}')">
-Remove
-</button>
-
-`
-        listB.appendChild(li)
+        listA.appendChild(renderPlayer(p, "B"))
     })
-
 }
 
 
