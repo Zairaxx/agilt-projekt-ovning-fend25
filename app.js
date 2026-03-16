@@ -6,18 +6,15 @@ let teamBName = localStorage.getItem("teamBName") || "Team B"
 
 
 function save() {
-
     localStorage.setItem("teamA", JSON.stringify(teamA))
     localStorage.setItem("teamB", JSON.stringify(teamB))
 
     localStorage.setItem("teamAName", teamAName)
     localStorage.setItem("teamBName", teamBName)
-
 }
 
 
 function renameTeam(team) {
-
     if (team === "A") {
         const val = document.getElementById("teamAInput").value
         if (val) teamAName = val
@@ -31,6 +28,24 @@ function renameTeam(team) {
 }
 
 
+function renderPlayer(p, team) {
+    const li = document.createElement("li")
+    li.className = "player"
+    
+    li.innerHTML = `
+    <span onclick="goToPlayer('${p.username}')">${p.username}</span>
+    <button onclick="removePlayer('${team}','${p.username}')">
+        Remove
+    </button>
+    <button onclick="switchTeam('${team}','${p.username}')">
+        Switch
+    </button>
+    `
+
+    return li
+}
+
+
 function renderHome() {
     document.getElementById("teamAName").textContent = teamAName
     document.getElementById("teamBName").textContent = teamBName
@@ -38,31 +53,13 @@ function renderHome() {
     const listB = document.getElementById("teamBList")
     listA.innerHTML = ""
     listB.innerHTML = ""
+    
     teamA.forEach(p => {
-        const li = document.createElement("li")
-        li.className = "player"
-        li.innerHTML = `
-
-<span onclick="goToPlayer('${p.username}')">${p.username}</span>
-
-<button onclick="removePlayer('A','${p.username}')">
-Remove
-</button>
-
-`
-        listA.appendChild(li)
+        listA.appendChild(renderPlayer(p, "A"))
     })
-    teamB.forEach(p => {
-        const li = document.createElement("li")
-        li.className = "player"
-        li.innerHTML = `
-<span onclick="goToPlayer('${p.username}')">${p.username}</span>
-<button onclick="removePlayer('B','${p.username}')">
-Remove
-</button>
 
-`
-        listB.appendChild(li)
+    teamB.forEach(p => {
+        listB.appendChild(renderPlayer(p, "B"))
     })
 
 }
@@ -72,6 +69,28 @@ function goToPlayer(username) {
     localStorage.setItem("selectedPlayer", username)
     window.location.href = "playerinfo.html"
 }
+
+
+function switchTeam(team, username) {
+
+    if (team === "A" && teamB.length < 5) {
+        const player = teamA.find(p => p.username === username)
+        teamA = teamA.filter(p => p.username !== username)
+        teamB.push(player)
+    } 
+    else if (team === "B" && teamA.length < 5) {
+        const player = teamB.find(p => p.username === username)
+        teamB = teamB.filter(p => p.username !== username)
+        teamA.push(player)
+    } 
+    else {
+        alert("The other team is full")
+    }
+    
+    save()
+    renderHome()
+}
+
 
 function removePlayer(team, username) {
     if (team === "A") {
@@ -85,26 +104,25 @@ function removePlayer(team, username) {
 
 }
 
+
 function usernameExists(username) {
     return teamA.includes(username) || teamB.includes(username)
 }
 
 
+
 function renderAddPlayer() {
 
     const teamSelect = document.getElementById("teamSelect")
-
     teamSelect.innerHTML = `
+        <option value="A" ${teamA.length >= 5 ? "disabled" : ""}>
+        ${teamAName}
+        </option>
 
-<option value="A" ${teamA.length >= 5 ? "disabled" : ""}>
-${teamAName}
-</option>
-
-<option value="B" ${teamB.length >= 5 ? "disabled" : ""}>
-${teamBName}
-</option>
-
-`
+        <option value="B" ${teamB.length >= 5 ? "disabled" : ""}>
+        ${teamBName}
+        </option>
+        `
 
     document.getElementById("playerForm").addEventListener("submit", e => {
 
@@ -117,9 +135,9 @@ ${teamBName}
             username,
             firstname: document.getElementById("firstname").value,
             lastname: document.getElementById("lastname").value,
-            age: document.getElementById("age"),
+            age: document.getElementById("age").value,
             country: document.getElementById("country").value,
-            ranking: document.getElementById("ranking")
+            ranking: document.getElementById("ranking").value
 
         }
         const team = document.getElementById("teamSelect").value
@@ -131,33 +149,26 @@ ${teamBName}
         }
         save()
         window.location.href = "index.html"
-
     })
-
 }
 
 function renderPlayerInfo() {
 
     const username = localStorage.getItem("selectedPlayer")
-
-    const player = teamA.find(p => p.username === username)
-
+    const player = teamA.find(p => p.username === username) || teamB.find(p => p.username === username)
     const profile = document.getElementById("profile")
 
     profile.innerHTML = `
-<div class="profile">
-<h2>${player?.username}</h2>
-<p><b>Name:</b> ${player?.firstname} ${player?.lastname}</p>
-<p><b>Age:</b> ${player?.age}</p>
-<p><b>Country:</b> ${player?.country}</p>
-<p><b>Ranking:</b> ${player?.ranking}</p>
-<br>
-<button onclick="window.location='home.html'">
-Back
-</button>
-
-</div>
-
-`
-
+        <div class="profile">
+        <h2>${player?.username}</h2>
+        <p><b>Name:</b> ${player?.firstname} ${player?.lastname}</p>
+        <p><b>Age:</b> ${player?.age}</p>
+        <p><b>Country:</b> ${player?.country}</p>
+        <p><b>Ranking:</b> ${player?.ranking}</p>
+        <br>
+        <button onclick="window.location='index.html'">
+        Back
+        </button>
+        </div>
+        `
 }
