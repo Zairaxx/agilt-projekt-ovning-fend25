@@ -151,3 +151,7 @@ Back
 `
 
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    renderPlayerInfo()
+})
