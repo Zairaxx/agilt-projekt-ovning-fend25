@@ -76,7 +76,27 @@ Switch team
 
 }
 
+async function loadCountries() {
+    const countrySelect = document.getElementById("country");
+    if(!countrySelect) return;
+
+    const response = await fetch("https://restcountries.com/v3.1/region/europe?fields=name");
+    const countries = await response.json();
+
+
+    countrySelect.innerHTML = `<option value="">Select country</option>`;
+
+    countries
+        .sort((a, b) => a.name.common.localeCompare(b.name.common))
+        .forEach(country => {
+            countrySelect.innerHTML += `<option value="${country.name.common}">${country.name.common}</option>`;
+        });
+
+}
+
 document.addEventListener("DOMContentLoaded", function () {
+
+    loadCountries();
 
     const searchInput = document.getElementById("searchInput")
     const searchBtn = document.getElementById("searchBtn")
