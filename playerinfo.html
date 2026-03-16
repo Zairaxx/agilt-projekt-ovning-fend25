@@ -13,6 +13,30 @@
         <a href="addplayer.html">Add Player</a>
     </nav>
     <div id="profile"></div>
+
+    <button type="button" onclick="toggleEdit(true)">Edit Player Information</button> 
+    <br> <br>
+
+    <div id="editFormContainer" style="display: none;">
+        <form id="editPlayerForm">
+            <input id="editUsername" placeholder="Username" required>
+            <input id="editFirstname" placeholder="First name" required>
+            <input id="editLastname" placeholder="Last name" required>
+            <input id="editAge" type="number" placeholder="Age" required>
+            <input id="editCountry" placeholder="Country" required>
+            <select id="editRanking">
+                <option>Iron</option>
+                <option>Bronze</option>
+                <option>Silver</option>
+                <option>Gold</option>
+                <option>Diamond</option>
+            </select>
+            <br><br>
+            <button type="button" id="saveChanges" onclick="saveEdit()">Save Changes</button>
+            <button type="button" id="cancelChanges" onclick="toggleEdit(false)">Cancel</button>
+        </form>
+    </div>
+    
     <script>
         renderPlayerInfo()
     </script>
