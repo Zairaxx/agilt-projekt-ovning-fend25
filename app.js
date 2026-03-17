@@ -44,23 +44,6 @@ function renderPlayer(p, team) {
     return li
 }
 
-function renderPlayer(p, team) {
-    const li = document.createElement("li")
-    li.className = "player"
-    
-    li.innerHTML = `
-    <span onclick="goToPlayer('${p.username}')">${p.username}</span>
-    <button onclick="removePlayer('${team}','${p.username}')">
-        Remove
-    </button>
-    <button onclick="switchTeam('${team}','${p.username}')">
-        Switch
-    </button>
-    `
-
-    return li
-}
-
 
 function renderHome() {
     document.getElementById("teamAName").textContent = teamAName
