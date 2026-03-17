@@ -124,6 +124,27 @@ function usernameExists(username) {
     return teamA.includes(username) || teamB.includes(username)
 }
 
+async function loadEuropeanCountries() {
+  const select = document.getElementById("country");
+
+  try {
+    const response = await fetch("https://restcountries.com/v3.1/region/europe?fields=name");
+    const countries = await response.json();
+
+    countries.sort((a, b) =>
+      a.name.common.localeCompare(b.name.common)
+    );
+
+    countries.forEach(country => {
+      const option = document.createElement("option");
+      option.value = country.name.common;
+      option.textContent = country.name.common;
+      select.appendChild(option);
+    });
+  } catch (error) {
+    console.error("Fel vid hämtning av länder:", error);
+  }
+}
 
 
 function renderAddPlayer() {
@@ -139,6 +160,7 @@ function renderAddPlayer() {
         </option>
         `
 
+    loadEuropeanCountries();
     document.getElementById("playerForm").addEventListener("submit", e => {
 
         e.preventDefault()
