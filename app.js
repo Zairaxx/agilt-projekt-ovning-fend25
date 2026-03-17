@@ -154,7 +154,7 @@ function renderAddPlayer() {
             country: document.getElementById("country").value,
             ranking: document.getElementById("ranking").value
 
-        }
+        };
         const team = document.getElementById("teamSelect").value
         if (team === "A") {
             teamA.push(player)
