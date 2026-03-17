@@ -44,6 +44,24 @@ function renderPlayer(p, team) {
     return li
 }
 
+function renderPlayer(p, team) {
+    const li = document.createElement("li")
+    li.className = "player"
+    
+    li.innerHTML = `
+    <span onclick="goToPlayer('${p.username}')">${p.username}</span>
+    <button onclick="removePlayer('${team}','${p.username}')">
+        Remove
+    </button>
+    <button onclick="switchTeam('${team}','${p.username}')">
+        Switch
+    </button>
+    `
+
+    return li
+}
+
+
 function renderHome() {
     document.getElementById("teamAName").textContent = teamAName
     document.getElementById("teamBName").textContent = teamBName
@@ -67,6 +85,28 @@ function goToPlayer(username) {
     window.location.href = "playerinfo.html"
 }
 
+
+function switchTeam(team, username) {
+
+    if (team === "A" && teamB.length < 5) {
+        const player = teamA.find(p => p.username === username)
+        teamA = teamA.filter(p => p.username !== username)
+        teamB.push(player)
+    } 
+    else if (team === "B" && teamA.length < 5) {
+        const player = teamB.find(p => p.username === username)
+        teamB = teamB.filter(p => p.username !== username)
+        teamA.push(player)
+    } 
+    else {
+        alert("The other team is full")
+    }
+    
+    save()
+    renderHome()
+}
+
+
 function removePlayer(team, username) {
     if (team === "A") {
         teamA.filter(p => p.username !== username)
@@ -79,26 +119,25 @@ function removePlayer(team, username) {
 
 }
 
+
 function usernameExists(username) {
     return teamA.includes(username) || teamB.includes(username)
 }
 
 
+
 function renderAddPlayer() {
 
     const teamSelect = document.getElementById("teamSelect")
-
     teamSelect.innerHTML = `
+        <option value="A" ${teamA.length >= 5 ? "disabled" : ""}>
+        ${teamAName}
+        </option>
 
-<option value="A" ${teamA.length >= 5 ? "disabled" : ""}>
-${teamAName}
-</option>
-
-<option value="B" ${teamB.length >= 5 ? "disabled" : ""}>
-${teamBName}
-</option>
-
-`
+        <option value="B" ${teamB.length >= 5 ? "disabled" : ""}>
+        ${teamBName}
+        </option>
+        `
 
     document.getElementById("playerForm").addEventListener("submit", e => {
 
@@ -125,9 +164,7 @@ ${teamBName}
         }
         save()
         window.location.href = "index.html"
-
     })
-
 }
 
 function renderPlayerInfo() {
