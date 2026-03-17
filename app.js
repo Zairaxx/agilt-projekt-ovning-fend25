@@ -27,6 +27,22 @@ function renameTeam(team) {
     renderHome()
 }
 
+function renderPlayer(p, team) {
+    const li = document.createElement("li")
+    li.className = "player"
+
+    li.innerHTML = `
+    <span onclick="goToPlayer('${p.username}')">${p.username}</span>
+    <button onclick="removePlayer('${team}','${p.username}')">
+        Remove
+    </button>
+    <button onclick="switchTeam('${team}','${p.username}')">
+        Switch
+    </button>
+    `
+
+    return li
+}
 
 function renderPlayer(p, team) {
     const li = document.createElement("li")
@@ -57,11 +73,10 @@ function renderHome() {
     teamA.forEach(p => {
         listA.appendChild(renderPlayer(p, "A"))
     })
-
+    
     teamB.forEach(p => {
-        listB.appendChild(renderPlayer(p, "B"))
+        listA.appendChild(renderPlayer(p, "B"))
     })
-
 }
 
 
@@ -155,20 +170,26 @@ function renderAddPlayer() {
 function renderPlayerInfo() {
 
     const username = localStorage.getItem("selectedPlayer")
-    const player = teamA.find(p => p.username === username) || teamB.find(p => p.username === username)
+
+    const player = teamA.find(p => p.username === username) 
+        || teamB.find(p => p.username === username)
+
     const profile = document.getElementById("profile")
 
     profile.innerHTML = `
-        <div class="profile">
-        <h2>${player?.username}</h2>
-        <p><b>Name:</b> ${player?.firstname} ${player?.lastname}</p>
-        <p><b>Age:</b> ${player?.age}</p>
-        <p><b>Country:</b> ${player?.country}</p>
-        <p><b>Ranking:</b> ${player?.ranking}</p>
-        <br>
-        <button onclick="window.location='index.html'">
-        Back
-        </button>
-        </div>
-        `
+<div class="profile">
+<h2>${player?.username}</h2>
+<p><b>Name:</b> ${player?.firstname} ${player?.lastname}</p>
+<p><b>Age:</b> ${player?.age}</p>
+<p><b>Country:</b> ${player?.country}</p>
+<p><b>Ranking:</b> ${player?.ranking}</p>
+<br>
+<button onclick="window.location='index.html'">
+Back
+</button>
+
+</div>
+
+`
+
 }
