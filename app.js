@@ -107,26 +107,26 @@ function usernameExists(username) {
     return teamA.includes(username) || teamB.includes(username)
 }
 
-async function loadEuropeanCountries() {
-  const select = document.getElementById("country");
 
-  try {
+async function loadEuropeanCountries() {
+    const select = document.getElementById("country");
+
+    try {
     const response = await fetch("https://restcountries.com/v3.1/region/europe?fields=name");
     const countries = await response.json();
 
     countries.sort((a, b) =>
-      a.name.common.localeCompare(b.name.common)
+        a.name.common.localeCompare(b.name.common)
     );
-
     countries.forEach(country => {
-      const option = document.createElement("option");
-      option.value = country.name.common;
-      option.textContent = country.name.common;
-      select.appendChild(option);
+        const option = document.createElement("option");
+        option.value = country.name.common;
+        option.textContent = country.name.common;
+        select.appendChild(option);
     });
-  } catch (error) {
-    console.error("Fel vid hämtning av länder:", error);
-  }
+    } catch (error) {
+        console.error("Fel vid hämtning av länder:", error);
+    }
 }
 
 
@@ -176,25 +176,21 @@ function renderPlayerInfo() {
 
     const username = localStorage.getItem("selectedPlayer")
 
-    const player = teamA.find(p => p.username === username) 
-        || teamB.find(p => p.username === username)
+    const player = teamA.find(p => p.username === username) || teamB.find(p => p.username === username)
 
     const profile = document.getElementById("profile")
 
     profile.innerHTML = `
-<div class="profile">
-<h2>${player?.username}</h2>
-<p><b>Name:</b> ${player?.firstname} ${player?.lastname}</p>
-<p><b>Age:</b> ${player?.age}</p>
-<p><b>Country:</b> ${player?.country}</p>
-<p><b>Ranking:</b> ${player?.ranking}</p>
-<br>
-<button onclick="window.location='index.html'">
-Back
-</button>
-
-</div>
-
-`
-
+        <div class="profile">
+        <h2>${player?.username}</h2>
+        <p><b>Name:</b> ${player?.firstname} ${player?.lastname}</p>
+        <p><b>Age:</b> ${player?.age}</p>
+        <p><b>Country:</b> ${player?.country}</p>
+        <p><b>Ranking:</b> ${player?.ranking}</p>
+        <br>
+        <button onclick="window.location='index.html'">
+        Back
+        </button>
+        </div>
+        `
 }
