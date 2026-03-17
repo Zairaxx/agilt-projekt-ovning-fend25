@@ -75,7 +75,7 @@ function renderHome() {
     })
     
     teamB.forEach(p => {
-        listA.appendChild(renderPlayer(p, "B"))
+        listB.appendChild(renderPlayer(p, "B"))
     })
 }
 
