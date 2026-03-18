@@ -273,3 +273,8 @@ form#playerForm{
     align-self: center;
     justify-self: center;
 }
+.statistik, .statistik2{
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+}

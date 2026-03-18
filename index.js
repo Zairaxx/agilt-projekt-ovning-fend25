@@ -72,26 +72,26 @@ function renderTeams() {
     teamA.forEach((player, index) => {
         const li = document.createElement("li")
         li.innerHTML = `
-${player.username}
-
-<div class="playerButtons">
-<button onclick="leaveTeam('A', ${index})">Leave</button>
-<button onclick="changeTeam('A', ${index})">Change</button>
-</div>
-`
-        teamAList.appendChild(li)
+            ${player.username}
+            <div class="playerButtons">
+            <button onclick="leaveTeam('A', ${index})">Leave</button>
+            <button onclick="changeTeam('A', ${index})">Change</button>
+            </div>
+            `
+            teamAList.appendChild(li)
     })
-    teamB.forEach((player, index) => {
+        teamB.forEach((player, index) => {
         const li = document.createElement("li")
         li.innerHTML = `
-${player.username}
-<div class="playerButtons">
-<button onclick="leaveTeam('B', ${index})">Leave</button>
-<button onclick="changeTeam('B', ${index})">Change</button>
-</div>
-`
-        teamBList.appendChild(li)
-    })
+            ${player.username}
+            <div class="playerButtons">
+            <button onclick="leaveTeam('B', ${index})">Leave</button>
+            <button onclick="changeTeam('B', ${index})">Change</button>
+            </div>
+            `
+            teamBList.appendChild(li)
+            
+        })
 }
 
 function changeTeamName() {
