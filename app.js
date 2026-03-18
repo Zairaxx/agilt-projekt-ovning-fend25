@@ -157,10 +157,6 @@ function renderPlayerInfo() {
     const username = localStorage.getItem("selectedPlayer")
 
     const player = teamA.find(p => p.username === username)
-<<<<<<< HEAD
-            ||     teamB.find(p => p.username === username);
-=======
->>>>>>> 295c7aa3ed7fdf2a2b2efbe4fe8aba469e5f9989
 
     const profile = document.getElementById("profile");
 
@@ -172,14 +168,9 @@ function renderPlayerInfo() {
 <p><b>Country:</b> ${player?.country}</p>
 <p><b>Ranking:</b> ${player?.ranking}</p>
 <br>
-<<<<<<< HEAD
-<button onclick="editPlayer('${player.username}')">Edit</button>
-<button onclick="window.location='home.html'">Back</button>
-=======
 <button onclick="window.location='home.html'">
 Back
 </button>
->>>>>>> 295c7aa3ed7fdf2a2b2efbe4fe8aba469e5f9989
 
 </div>
 
