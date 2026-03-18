@@ -14,10 +14,6 @@ function save() {
     localStorage.setItem("teamBName", teamBName)
 
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> feature/lagstatistik
 function renameTeam(team) {
 
     if (team === "A") {
