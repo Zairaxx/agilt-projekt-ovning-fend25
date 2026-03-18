@@ -14,7 +14,10 @@ function save() {
     localStorage.setItem("teamBName", teamBName)
 
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> feature/lagstatistik
 function renameTeam(team) {
 
     if (team === "A") {
@@ -31,6 +34,32 @@ function renameTeam(team) {
 
 
 function renderHome() {
+    let statistik= document.querySelector('.statistik')
+    let statistik2= document.querySelector('.statistik2')
+    const dataTeamA = JSON.parse(localStorage.getItem('teamA')) || []
+    const dataTeamB = JSON.parse(localStorage.getItem('teamB')) || []
+    function avgAge(spelare) {
+        if (spelare.length === 0) return 0
+        let total = spelare.reduce((sum, s) => sum + Number(s.age), 0)
+        return (total / spelare.length).toFixed(0) 
+    }
+    let rankNumber = {
+        "Iron": 1,
+        "Bronze": 2,
+        "Silver": 3,
+        "Gold": 4,
+        "Diamond": 5
+    }
+    const numberToRank = ["Iron", "Bronze", "Silver", "Gold", "Diamond"]
+    function getAverageRank(spelare) {
+        if (spelare.length === 0) return "Ingen"
+        const total = spelare.reduce((sum, p) => {
+            return sum + (rankNumber[p.ranking] || 1)
+        }, 0)
+        const avgNum = total / spelare.length
+        const rounded = Math.round(avgNum)
+        return numberToRank[rounded - 1]
+    }
     document.getElementById("teamAName").textContent = teamAName
     document.getElementById("teamBName").textContent = teamBName
     const listA = document.getElementById("teamAList")
@@ -47,6 +76,9 @@ function renderHome() {
         `
     listA.appendChild(li)
     })
+    statistik.innerHTML=`<div>Antal spelare: ${teamA.length}</div> 
+        <div>Avg. ålder: ${avgAge(dataTeamA)}</div>   
+        <div>Avg. rank: ${getAverageRank(dataTeamA)}</div>`
     teamB.forEach(p => {
         const li = document.createElement("li")
         li.className = "player"
@@ -57,6 +89,9 @@ function renderHome() {
         `
     listB.appendChild(li)
     })
+    statistik2.innerHTML=`<div>Antal spelare: ${teamB.length}</div> 
+        <div>Avg. ålder: ${avgAge(dataTeamB)}</div>   
+        <div>Avg. rank: ${getAverageRank(dataTeamB)}</div>`
 }
 
 
