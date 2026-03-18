@@ -44,23 +44,6 @@ function renderPlayer(p, team) {
     return li
 }
 
-function renderPlayer(p, team) {
-    const li = document.createElement("li")
-    li.className = "player"
-    
-    li.innerHTML = `
-    <span onclick="goToPlayer('${p.username}')">${p.username}</span>
-    <button onclick="removePlayer('${team}','${p.username}')">
-        Remove
-    </button>
-    <button onclick="switchTeam('${team}','${p.username}')">
-        Switch
-    </button>
-    `
-
-    return li
-}
-
 
 function renderHome() {
     document.getElementById("teamAName").textContent = teamAName
@@ -75,7 +58,7 @@ function renderHome() {
     })
     
     teamB.forEach(p => {
-        listA.appendChild(renderPlayer(p, "B"))
+        listB.appendChild(renderPlayer(p, "B"))
     })
 }
 
@@ -121,29 +104,8 @@ function removePlayer(team, username) {
 
 
 function usernameExists(username) {
-    return teamA.includes(username) || teamB.includes(username)
-}
-
-async function loadEuropeanCountries() {
-  const select = document.getElementById("country");
-
-  try {
-    const response = await fetch("https://restcountries.com/v3.1/region/europe?fields=name");
-    const countries = await response.json();
-
-    countries.sort((a, b) =>
-      a.name.common.localeCompare(b.name.common)
-    );
-
-    countries.forEach(country => {
-      const option = document.createElement("option");
-      option.value = country.name.common;
-      option.textContent = country.name.common;
-      select.appendChild(option);
-    });
-  } catch (error) {
-    console.error("Fel vid hämtning av länder:", error);
-  }
+            teamA.some(p => p.username === username) ||
+            teamB.some(p => p.username === username)
 }
 
 
@@ -165,8 +127,9 @@ function renderAddPlayer() {
 
         e.preventDefault()
         const username = document.getElementById("username").value
-        if (usernameExists) {
+        if (usernameExists(username)) {
             document.getElementById("error").textContent = "Username already exists"
+            return
         }
         const player = {
             username,
@@ -194,7 +157,10 @@ function renderPlayerInfo() {
     const username = localStorage.getItem("selectedPlayer")
 
     const player = teamA.find(p => p.username === username)
+<<<<<<< HEAD
             ||     teamB.find(p => p.username === username);
+=======
+>>>>>>> 295c7aa3ed7fdf2a2b2efbe4fe8aba469e5f9989
 
     const profile = document.getElementById("profile");
 
@@ -206,8 +172,14 @@ function renderPlayerInfo() {
 <p><b>Country:</b> ${player?.country}</p>
 <p><b>Ranking:</b> ${player?.ranking}</p>
 <br>
+<<<<<<< HEAD
 <button onclick="editPlayer('${player.username}')">Edit</button>
 <button onclick="window.location='home.html'">Back</button>
+=======
+<button onclick="window.location='home.html'">
+Back
+</button>
+>>>>>>> 295c7aa3ed7fdf2a2b2efbe4fe8aba469e5f9989
 
 </div>
 
