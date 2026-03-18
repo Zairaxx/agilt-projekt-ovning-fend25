@@ -216,3 +216,20 @@ function enableEdit(profileDiv, player) {
         renderPlayerInfo();
     });
 }
+
+function sortPlayers() {
+    let sortingArr = ['Diamond', 'Gold', 'Silver', 'Bronze', 'Iron']
+
+    let sortDropdown = document.querySelector("#sort");
+    if (sortDropdown.value === "age") {
+        teamA.sort((a, b) => a.age - b.age);
+        teamB.sort((a, b) => a.age - b.age);
+    } else if (sortDropdown.value === "username") {
+        teamA.sort((a, b) => a.username.localeCompare(b.firstname));
+        teamB.sort((a, b) => a.username.localeCompare(b.firstname));
+    } else if (sortDropdown.value === "ranking") {
+        teamA.sort((a, b) => sortingArr.indexOf(a.ranking) - sortingArr.indexOf(b.ranking));
+        teamB.sort((a, b) => sortingArr.indexOf(a.ranking) - sortingArr.indexOf(b.ranking));
+    }
+    renderHome();
+}
