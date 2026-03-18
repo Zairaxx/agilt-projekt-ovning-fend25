@@ -176,21 +176,92 @@ function renderPlayerInfo() {
 
     const username = localStorage.getItem("selectedPlayer")
 
-    const player = teamA.find(p => p.username === username) || teamB.find(p => p.username === username)
+    const player = teamA.find(p => p.username === username)
 
-    const profile = document.getElementById("profile")
+    const profile = document.getElementById("profile");
+
+    profile.innerHTML = `
+<div class="profile">
+<h2>${player?.username}</h2>
+<p><b>Name:</b> ${player?.firstname} ${player?.lastname}</p>
+<p><b>Age:</b> ${player?.age}</p>
+<p><b>Country:</b> ${player?.country}</p>
+<p><b>Ranking:</b> ${player?.ranking}</p>
+<br>
+<button onclick="window.location='home.html'">
+Back
+</button>
+
+</div>
+
+`
+
+}
+
+function editPlayer(username) {
+    let player = teamA.find(p => p.username === username) ||
+                 teamB.find(p => p.username === username);
+
+    const profile = document.getElementById("profile");
 
     profile.innerHTML = `
         <div class="profile">
-        <h2>${player?.username}</h2>
-        <p><b>Name:</b> ${player?.firstname} ${player?.lastname}</p>
-        <p><b>Age:</b> ${player?.age}</p>
-        <p><b>Country:</b> ${player?.country}</p>
-        <p><b>Ranking:</b> ${player?.ranking}</p>
-        <br>
-        <button onclick="window.location='index.html'">
-        Back
-        </button>
+            <h2>Edit Player</h2>
+
+            <p><b>Username:</b></p>
+            <input id="editUsername" value="${player.username}">
+
+            <p><b>First name:</b></p>
+            <input id="editFirstname" value="${player.firstname}">
+
+            <p><b>Last name:</b></p>
+            <input id="editLastname" value="${player.lastname}">
+
+            <p><b>Age:</b></p>
+            <input id="editAge" type="number" value="${player.age}">
+
+            <p><b>Country:</b></p>
+            <input id="editCountry" value="${player.country}">
+
+            <p><b>Ranking:</b></p>
+            <select id="editRanking">
+                <option ${player.ranking === "Iron" ? "selected" : ""}>Iron</option>
+                <option ${player.ranking === "Bronze" ? "selected" : ""}>Bronze</option>
+                <option ${player.ranking === "Silver" ? "selected" : ""}>Silver</option>
+                <option ${player.ranking === "Gold" ? "selected" : ""}>Gold</option>
+                <option ${player.ranking === "Diamond" ? "selected" : ""}>Diamond</option>
+            </select>
+
+            <br><br>
+            <button onclick="updatePlayer('${username}')">Update</button>
+            <button onclick="renderPlayerInfo()">Cancel</button>
         </div>
-        `
+    `;
+}
+
+
+function updatePlayer(originalUsername) {
+
+    const newUsername = document.getElementById("editUsername").value;
+
+    let team = teamA.some(p => p.username === originalUsername) ? "A" : "B";
+    let list = team === "A" ? teamA : teamB;
+    let other = team === "A" ? teamB : teamA;
+
+    let player = list.find(p => p.username === originalUsername);
+
+    if (other.some(p => p.username === newUsername)) {
+        alert("Username already exists in the other team");
+        return;
+    }
+
+    player.username = newUsername;
+    player.firstname = document.getElementById("editFirstname").value;
+    player.lastname = document.getElementById("editLastname").value;
+    player.age = document.getElementById("editAge").value;
+    player.country = document.getElementById("editCountry").value;
+    player.ranking = document.getElementById("editRanking").value;
+
+    save();
+    renderPlayerInfo();
 }
