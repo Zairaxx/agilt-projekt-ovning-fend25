@@ -86,9 +86,9 @@ function removePlayer(team, username) {
 }
 
 function usernameExists(username) {
-    return teamA.includes(username) || teamB.includes(username)
+            teamA.some(p => p.username === username) ||
+            teamB.some(p => p.username === username)
 }
-
 
 function renderAddPlayer() {
 
