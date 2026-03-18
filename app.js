@@ -158,42 +158,40 @@ function renderTeamSelect() {
 
 
 function renderAddPlayer() {
-    renderTeamSelect();
-
+    renderTeamSelect()
     document.getElementById("playerForm").addEventListener("submit", e => {
-
         e.preventDefault()
         const username = document.getElementById("username").value
-        if (usernameExists(username)) {
-            document.getElementById("error").textContent = "Username already exists";
-            return;
+        if (usernameExists(username)|| username.length <3) {
+            document.getElementById("error").textContent = "Try another username, more than 3 digits";
+            return
+        }
+        let age= document.getElementById("age").value
+        if (isNaN(age)||age <13 || age >50){
+            document.getElementById("error").textContent = "Choose age between 13 and 50 only";
+            return
         }
         const player = {
             username,
             firstname: document.getElementById("firstname").value,
             lastname: document.getElementById("lastname").value,
-            age: document.getElementById("age").value,
+            age,
             country: document.getElementById("country").value,
             ranking: document.getElementById("ranking").value
-
         }
         const team = document.getElementById("teamSelect").value
-
         if (teamA.length >= 5 && teamB.length >= 5) {
         alert("Both teams are full!");
         return;
     }
-
     if (team === "A" && teamA.length >= 5) {
         alert(`${teamAName} is full!`);
         return;
     }
-
     if (team === "B" && teamB.length >= 5) {
         alert(`${teamBName} is full!`);
         return;
     }
-
         if (team === "A") {
             teamA.push(player)
         }
@@ -202,9 +200,7 @@ function renderAddPlayer() {
         }
         save()
         window.location.href = "index.html"
-
     })
-
 }
 
 function renderPlayerInfo() {
@@ -225,8 +221,6 @@ function renderPlayerInfo() {
 </div>
 
 `
-
-;
 
 const editBtn = document.getElementById("editBtn");
     editBtn.addEventListener("click", () => enableEdit(profile, player));
@@ -255,16 +249,19 @@ function enableEdit(profileDiv, player) {
     `;
 
     profileDiv.querySelector(".saveBtn").addEventListener("click", () => {
+        const newAge = parseInt(profileDiv.querySelector(".edit-age").value)
+        if (isNaN(newAge) || newAge < 13 || newAge > 50) {
+        document.getElementById("error").textContent = "Choose age between 13 and 50 only"
+        return
+        }
         player.firstname = profileDiv.querySelector(".edit-fname")?.value;
         player.lastname = profileDiv.querySelector(".edit-lname")?.value;
-        player.age = parseInt(profileDiv.querySelector(".edit-age")?.value);
+        player.age= newAge
         player.country = profileDiv.querySelector(".edit-country")?.value;
         player.ranking = profileDiv.querySelector(".edit-ranking")?.value;
-
         save();
         renderPlayerInfo();
     });
-
     profileDiv.querySelector(".cancelBtn").addEventListener("click", () => {
         renderPlayerInfo();
     });
