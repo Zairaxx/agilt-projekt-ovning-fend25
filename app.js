@@ -345,7 +345,7 @@ function renderPlayerInfo() {
 <p><b>Name:</b> ${player?.firstname} ${player?.lastname}</p>
 <p><b>Age:</b> ${player?.age}</p>
 <p><b>Country:</b> ${player?.country}</p>
-<p><b>Ranking:</b> ${numberToRank(player?.ranking)}</p>
+<p><b>Ranking:</b> ${numberToRank(player?.ranking)} | Level: ${player?.ranking}</p>
 <br>
 <button onclick="window.location='index.html'">
 Back
