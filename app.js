@@ -110,7 +110,7 @@ function renderHome() {
             li.className = "player"
             li.innerHTML = `
 
-            <span onclick="goToPlayer('${p.username}')">${p.username}</span>
+            <span onclick="goToPlayer('${p.username}')">${p.flag || ""} ${p.username}</span>
 
             <button onclick="removePlayer('A','${p.username}')">
             Remove
@@ -132,7 +132,7 @@ function renderHome() {
             const li = document.createElement("li")
             li.className = "player"
             li.innerHTML = `
-            <span onclick="goToPlayer('${p.username}')">${p.username}</span>
+            <span onclick="goToPlayer('${p.username}')">${p.flag || ""} ${p.username}</span>
             <button onclick="removePlayer('B','${p.username}')">
             Remove
             </button>
@@ -181,28 +181,54 @@ function updateTeamStats() {
         `Players: ${statsB.count} | Avg Age: ${statsB.avgAge} | Avg Rank: ${numberToRank(statsB.avgRank)}`
 }
 
+function getFlagEmoji(code) {
+    return code
+        .toUpperCase()
+        .replace(/./g, char =>
+            String.fromCodePoint(127397 + char.charCodeAt(0))
+        );
+}
 
 async function loadCountries() {
     const countrySelect = document.getElementById("country");
-    if(!countrySelect) return;
+    if (!countrySelect) return;
 
-    const response = await fetch("https://restcountries.com/v3.1/region/europe?fields=name");
+    const response = await fetch(
+        "https://restcountries.com/v3.1/region/europe?fields=name,flags,cca2"
+    );
     const countries = await response.json();
 
-
-    countrySelect.innerHTML = `<option value="">Select country</option>`;
+    countrySelect.innerHTML = `<option value="">Country</option>`;
 
     countries
         .sort((a, b) => a.name.common.localeCompare(b.name.common))
         .forEach(country => {
-            countrySelect.innerHTML += `<option value="${country.name.common}">${country.name.common}</option>`;
+            const option = document.createElement("option");
+            option.value = country.name.common;
+            option.textContent = `${getFlagEmoji(country.cca2)} ${country.name.common}`;
+            option.dataset.flag = country.flags.png;
+            countrySelect.appendChild(option);
         });
-
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-
     loadCountries();
+    const countrySelect = document.getElementById("country");
+    const flagImg = document.getElementById("flagPreview");
+
+    if (countrySelect && flagImg) {
+        countrySelect.addEventListener("change", function () {
+            const selectedOption = countrySelect.options[countrySelect.selectedIndex];
+
+            if (selectedOption && selectedOption.dataset.flag) {
+                flagImg.src = selectedOption.dataset.flag;
+                flagImg.style.display = "block";
+            } else {
+                flagImg.src = "";
+                flagImg.style.display = "none";
+            }
+        });
+    }
 
     const searchInput = document.getElementById("searchInput")
     const searchBtn = document.getElementById("searchBtn")
@@ -324,12 +350,17 @@ function renderAddPlayer() {
             document.getElementById("error").textContent = "Username already exists";
             return;
         }
+        
+        const countrySelect = document.getElementById("country");
+        const selectedOption = countrySelect.options[countrySelect.selectedIndex];
+
         const player = {
             username,
             firstname: document.getElementById("firstname").value,
             lastname: document.getElementById("lastname").value,
             age: document.getElementById("age").value,
-            country: document.getElementById("country").value,
+            country: countrySelect.value,
+            flag: selectedOption.textContent.split(" ")[0],
             ranking: document.getElementById("ranking").value
 
         }
@@ -359,10 +390,10 @@ function renderPlayerInfo() {
 
     profile.innerHTML = `
 <div class="profile">
-<h2>${player?.username}</h2>
+<h2>${player?.flag || ""} ${player?.username}</h2>
 <p><b>Name:</b> ${player?.firstname} ${player?.lastname}</p>
 <p><b>Age:</b> ${player?.age}</p>
-<p><b>Country:</b> ${player?.country}</p>
+<p><b>Country:</b> ${player?.flag || ""} ${player?.country}</p>
 <p><b>Ranking:</b> ${numberToRank(player?.ranking)} | Level: ${player?.ranking}</p>
 <br>
 <button onclick="window.location='index.html'">
