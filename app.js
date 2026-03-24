@@ -30,12 +30,35 @@ function renameTeam(team) {
     renderHome()
 }
 
+async function loadEuropeanCountries() {
+    const select = document.getElementById("country");
+
+    try {
+        const response = await fetch("https://restcountries.com/v3.1/region/europe?fields=name");
+        const countries = await response.json();
+        
+        countries.sort((a, b) =>
+            a.name.common.localeCompare(b.name.common)
+        );
+
+        countries.forEach(country => {
+            const option = document.createElement("option");
+            option.value = country.name.common;
+            option.textContent = country.name.common;
+            select.appendChild(option);
+        });
+    }   catch (error) {
+        console.error("Fel vid hämtning av länder:", error);
+    }
+}
 
 function renderHome() {
     document.getElementById("teamAName").textContent = teamAName
     document.getElementById("teamBName").textContent = teamBName
     const listA = document.getElementById("teamAList")
     const listB = document.getElementById("teamBList")
+    const teamASize = document.getElementById("teamA-p");
+    const teamBSize = document.getElementById("teamB-p");
     listA.innerHTML = ""
     listB.innerHTML = ""
     teamA.forEach(p => {
@@ -64,7 +87,6 @@ Remove
 `
         listB.appendChild(li)
     })
-
 }
 
 
@@ -72,6 +94,28 @@ function goToPlayer(username) {
     localStorage.setItem("selectedPlayer", username)
     window.location.href = "playerinfo.html"
 }
+
+
+function switchTeam(team, username) {
+
+    if (team === "A" && teamB.length < 5) {
+        const player = teamA.find(p => p.username === username)
+        teamA = teamA.filter(p => p.username !== username)
+        teamB.push(player)
+    } 
+    else if (team === "B" && teamA.length < 5) {
+        const player = teamB.find(p => p.username === username)
+        teamB = teamB.filter(p => p.username !== username)
+        teamA.push(player)
+    } 
+    else {
+        alert("The other team is full")
+    }
+    
+    save()
+    renderHome()
+}
+
 
 function removePlayer(team, username) {
     if (team === "A") {
@@ -95,16 +139,14 @@ function renderAddPlayer() {
     const teamSelect = document.getElementById("teamSelect")
 
     teamSelect.innerHTML = `
+        <option value="A" ${teamA.length >= 5 ? "disabled" : ""}>
+        ${teamAName}
+        </option>
 
-<option value="A" ${teamA.length >= 5 ? "disabled" : ""}>
-${teamAName}
-</option>
-
-<option value="B" ${teamB.length >= 5 ? "disabled" : ""}>
-${teamBName}
-</option>
-
-`
+        <option value="B" ${teamB.length >= 5 ? "disabled" : ""}>
+        ${teamBName}
+        </option>
+        `
 
     document.getElementById("playerForm").addEventListener("submit", e => {
 
@@ -141,7 +183,6 @@ function renderPlayerInfo() {
     const username = localStorage.getItem("selectedPlayer")
 
     const player = teamA.find(p => p.username === username)
-            ||     teamB.find(p => p.username === username);
 
     const profile = document.getElementById("profile");
 
@@ -153,8 +194,9 @@ function renderPlayerInfo() {
 <p><b>Country:</b> ${player?.country}</p>
 <p><b>Ranking:</b> ${player?.ranking}</p>
 <br>
-<button onclick="editPlayer('${player.username}')">Edit</button>
-<button onclick="window.location='home.html'">Back</button>
+<button onclick="window.location='home.html'">
+Back
+</button>
 
 </div>
 
@@ -163,9 +205,8 @@ function renderPlayerInfo() {
 }
 
 function editPlayer(username) {
-    let player = teamA.find(p => p.username === username) ||
-                 teamB.find(p => p.username === username);
 
+    let player = teamA.find(p => p.username === username) || teamB.find(p => p.username === username);
     const profile = document.getElementById("profile");
 
     profile.innerHTML = `
