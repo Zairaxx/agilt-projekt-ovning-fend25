@@ -18,7 +18,7 @@ nav a {
     background: white;
     padding: 20px;
     border-radius: 10px;
-    width: 250px;
+    width: 350px;
 }
 
 .player {
@@ -37,4 +37,10 @@ nav a {
     padding: 30px;
     border-radius: 10px;
     width: 300px;
+}
+
+.team-warning {
+  color: #6e6e6e;       
+  font-style: italic;
+  font-size: 0.9em; 
 }
